@@ -1,0 +1,6 @@
+node_modules/**/*
+.expo/**/*
+coverage/**/*
+config/api.js
+.DS_Store
+.idea/
