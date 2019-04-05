@@ -1,13 +1,16 @@
-import { combineReducers } from "redux-immutable";
-import { reduceReducers } from "../utils/reduceReducers";
-import reducer from "../reducers";
-import dataReducer from "./data-reducer";
+import { combineReducers } from 'redux-immutable';
+import { reduceReducers } from '../utils/reduceReducers';
+// import * as reducer from "../reducers";
+// import authReducer  from '../reducers/auth-reducer';
+// import counterReducer from '../reducers/counter-reducer';
+import dataReducer from './data-reducer';
 // import { toJS } from 'immutable';
-import defaultState from '../store/default-state'
+import defaultState from './default-state';
 // add new reducer
 
 const reducers = {
-  auth: reducer
+  // auth: authReducer,
+  // counter: counterReducer,
 };
 
 const defaultReducer = (s = {}) => s;
@@ -18,20 +21,19 @@ const defaultReducer = (s = {}) => s;
 // better than using reduce
 const preserveInitialStateReducers = reducers => {
   const reducerNames = Object.keys(reducers);
+  const preservedReducers = {};
   Object.keys(defaultState).forEach(key => {
     if (!reducerNames.includes(key)) {
-      reducers[key] = defaultReducer;
+      preservedReducers[key] = defaultReducer;
     }
   });
 
-  return {
-    ...reducers
-  };
+  return preservedReducers;
 };
 
 const finalCombinedReducers = combineReducers({
-  ...preserveInitialStateReducers(reducers)
-}); // eslint-disable-line
+  ...preserveInitialStateReducers(reducers),
+});
 
 const rootReducer = reduceReducers(finalCombinedReducers, dataReducer);
 // const rootReducer = finalCombinedReducers;
